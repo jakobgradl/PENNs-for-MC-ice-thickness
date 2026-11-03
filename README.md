@@ -27,7 +27,7 @@ The following publicly available data sets are used in this code:
 
 | Data set | File name | Link to repository |
 |----------|-----------|--------------------|
-| MEaSUREs Phase-Based Antarctica Ice Velocity Map, Version 1[^1,2] | antarctic_ice_vel_phase_map_v01.nc | https://nsidc.org/data/nsidc-0754/versions/1 |
+| MEaSUREs Phase-Based Antarctica Ice Velocity Map, Version 1[^1] | antarctic_ice_vel_phase_map_v01.nc | https://nsidc.org/data/nsidc-0754/versions/1 |
 | BedMap3 statistically summarised points | UTIG_2009_ICECAP_AIR_BM3.csv | https://data.bas.ac.uk/full-record.php?id=GB/NERC/BAS/PDC/01502 |
 | BedMap3 statistically summarised points | NASA_2011_ICEBRIDGE_AIR_BM2.csv | https://data.bas.ac.uk/full-record.php?id=GB/NERC/BAS/PDC/01618 |
 | MEaSUREs ITS_LIVE Antarctic Grounded Ice Sheet Elevation Change, Version 1 | ANT_G1920_GroundedIceHeight_v01.nc | https://nsidc.org/data/nsidc-0782/versions/1 |
