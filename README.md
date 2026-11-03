@@ -8,6 +8,9 @@ The PENN model code developed for this project is implemented therein and availa
 
 ## Files included in this repository
 
+The 'models/pinn/' folder contains the .pt files of the models created for this study.
+These can be used to recreate all data sets required to reproduce the figures of the paper using the jupyter notebooks contained in this repository.
+
 | File name | Function |
 |-----------|----------|
 | run-model.py | Main script to run inversions |
@@ -16,6 +19,7 @@ The PENN model code developed for this project is implemented therein and availa
 | make-figures.ipynb | Create the figures used in the paper |
 | make-bm3-thk-files.ipynb | Create the .mat file containing the thickness observations |
 | make-amb.ipynb | Create the .mat file containing the apparent mass balance data |
+| Byrd-BMap3GL-30ma-vertices.exp | Model boundary vertices | 
 
 
 ## Instructions
