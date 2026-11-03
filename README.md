@@ -1,17 +1,22 @@
 # Physics-Encoded Neural Networks for Strictly Mass-Conserving Ice Thickness Interpolation
 
-This repository contains the code that was used to process the data and create the figures in <paper>.
-All simulations were performed using the Physics-Informed Neural Networks for Ice and CLimatE (PINNICLE) python package. 
+This repository contains the code that was used to process the data and create the figures in &lt;ref-to-paper&gt;.
+
+All simulations were performed using the Physics-Informed Neural Networks for Ice and CLimatE (PINNICLE) python package[^1]. 
 The PENN model code developed for this project is implemented therein and available at https://github.com/ISSMteam/PINNICLE.
+
 
 ## Files included in this repository
 
-run-model.py
-save-data.ipynb
-thickness-profiles.ipynb
-make-figures.ipynb
-make-bm3-thk-files.ipynb
-make-amb.ipynb
+| File name | Function |
+|-----------|----------|
+| run-model.py | Main script to run inversions |
+| save-data.ipynb | Post-processing, extract data for figures |
+| thickness-profiles.ipynb | Interpolate gridded data along profile lines |
+| make-figures.ipynb | Create the figures used in the paper |
+| make-bm3-thk-files.ipynb | Create the .mat file containing the thickness observations |
+| make-amb.ipynb | Create the .mat file containing the apparent mass balance data |
+
 
 ## Instructions
 
@@ -19,7 +24,8 @@ The inversions can be recreated by running the 'run-model.py' script.
 The model requires downloading the data sets containing the obsrvation constraints specified below, and subsequently running the 'make-bm3-thk-file.ipynb' and 'make-amb.ipynb' jupyter notebooks to create the ice thickness and apparent mass balance data sets.
 All data sets should be placed in the 'data' folder.
 
-The main 'path' variable must be specified in the scripts by replacing '<path-to-folder>' with the path to the 'PENNs-for-MC-ice-thickness' folder.
+The main 'path' variable must be specified in the scripts by replacing '&lt;path-to-folder&gt;' with the path to the 'PENNs-for-MC-ice-thickness' folder.
+
 
 ## Required data sets
 
@@ -35,7 +41,7 @@ The following publicly available data sets are used in this code:
 | BedMachine Antarctica, Version 3[^11][^12] | BedMachineAntarctica-v3.nc | http://nsidc.org/data/nsidc-0756 |
 
 
-## References
+[^1]: Cheng, G., Krishna, M., & Morlighem, M. (2025, August). A Python library for solving ice sheet modeling problems using physics-informed neural networks, PINNICLE v1.0. Geoscientific Model Development, 18(16), 5311–5327. Retrieved 2026-11-03, from https://gmd.copernicus.org/articles/18/5311/2025/ doi: 10.5194/gmd-18-5311-2025.
 [^1]: Mouginot, J., Rignot, E., & Scheuchl, B. (2019a). Continent-Wide, Interferometric SAR Phase, Mapping of Antarctic Ice Velocity. Geophysical Research Letters, 46(16), 9710–9718. Retrieved 2026-10-08, from https://onlinelibrary.wiley.com/doi/abs/10.1029/2019GL083826 doi: 10.1029/2019GL083826.
 [^2]: Mouginot, J., Rignot, E., & Scheuchl, B. (2019b). MEaSUREs Phase-Based Antarctica Ice Velocity Map, Version 1. NASA National Snow and Ice Data Center Distributed Active Archive Center. Retrieved from http://nsidc.org/data/NSIDC-0754/versions/1 doi: 10.5067/PZ3NJ5RXRH10.
 [^3]: Young, D. A., Wright, A. P., Roberts, J. L., Warner, R. C., Young, N. W., Greenbaum, J. S., … Siegert, M. J. (2011, June). A dynamic early East Antarctic Ice Sheet suggested by ice-covered fjord landscapes. Nature, 474(7349), 72–75. Retrieved 2026-10-08, from https://www.nature.com/articles/nature10114 doi: 10.1038/nature10114.
