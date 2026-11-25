@@ -12,9 +12,10 @@ dde.config.set_default_float('float32')
 model = 'MCexactHelm'   # for PENN
 # model = 'MC'            # for PINN
 seedNo = 1 # choose from 1 to 5
+expNo = 1
+date = '06-10-26'
 
 ## custom loss function
-
 def capped_MSE(y_true, y_pred): # cap loss with ReLU
     perc = 0.05
     
@@ -23,16 +24,11 @@ def capped_MSE(y_true, y_pred): # cap loss with ReLU
     capped_se = bkd.relu(se-uncert)
     return bkd.reduce_mean(capped_se)
 
+
 ## some paramters
-
-date = '06-10-26'
-if model=='MCexactHelm':
-    expNo = 1
-elif model=='MC':
-    expNo = 2
 seeds = [42,84,168,332,664]
-
 seed = seeds[seedNo-1]
+
 
 ## paths to data files
 
@@ -42,10 +38,15 @@ modelpath = path + '/models/'
 
 outline = datapath + "Byrd-BMap3GL-30ma-vertices.exp"
 
-meas = datapath + 'antarctic_ice_vel_phase_map_v01_seconds.nc' # get MEaSUREs velocity, convert VX,VY to meters per second
+meas = datapath + 'antarctic_ice_vel_phase_map_v01.nc' # MEaSUREs velocity
 
 H_radar = datapath + 'Byrd-ICEBRIDGE-ICECAP-BM3-500m-median-thk.mat' # run make-bm3-thk-files.ipynb
 apm = datapath + 'apparent_mass_balance_2013-17_mps.mat' # run make-amb.ipynb
+
+# for validation experiments
+H_radar_synth = datapath + 'exp1-ice-thickness-BedMap-grid-holdout-60KMspacing-synthetic-train.mat'
+meas_synth = datapath + 'exp1-surface-velocity-Measures-grid-synthetic.mat'
+apm_synth = datapath + 'exp1-apparent-mass-balance-BedMap-grid-synthetic.mat'
 
 
 outFile = f'Byrd-BMap3GL-30ma-{model}-exp{expNo}-No{seedNo}-{date}' 
@@ -94,16 +95,20 @@ hp['shapefile'] = outline
 hp['num_collocation_points'] = 2_000
 hp["period"] = 5
 
+yts = pinn.physics.Constants().yts
+
 MEAS = {}
 MEAS['data_path'] = meas
 MEAS['sample_only_inside'] = True
 MEAS['X_map'] = {'x':'x', 'y':'y'}
 if model in ["MCexactHelm"]:
-    MEAS['name_map'] = {'u_MC':'VX', 'v_MC':'VY', 'vel_mag_MC':'VelMag'}
-    MEAS['data_size'] = {'u_MC':'MAX', 'v_MC':'MAX', 'vel_mag_MC':'MAX'}
+    MEAS['name_map'] = {'u_MC':'VX', 'v_MC':'VY'}
+    MEAS['data_size'] = {'u_MC':'MAX', 'v_MC':'MAX'}
+    MEAS['scaling'] = {"u_MC":1.0/yts, "v_MC":1.0/yts} # convert to m/s
 elif model in ["MC"]:
-    MEAS['name_map'] = {'u':'VX', 'v':'VY'} #, 'vel':'VelMag'}
-    MEAS['data_size'] = {'u':'MAX', 'v':'MAX'} #, 'vel':'MAX'}
+    MEAS['name_map'] = {'u':'VX', 'v':'VY'}
+    MEAS['data_size'] = {'u':'MAX', 'v':'MAX'}
+    MEAS['scaling'] = {"u":1.0/yts, "v":1.0/yts}
 MEAS['source'] = 'nc'
 
 APM = {}
@@ -129,6 +134,32 @@ elif model in ["MCexactHelm"]:
     H['name_map'] = {'H_MC':'median-thickness'}
     H['data_size'] = {'H_MC':'MAX'}
 H['source'] = 'mat'
+
+## synthetic data for validation experiments
+MEAS_SYNTH = {}
+MEAS_SYNTH['data_path'] = meas_synth
+MEAS_SYNTH['sample_only_inside'] = True
+MEAS_SYNTH['X_map'] = {'x':'x', 'y':'y'}
+MEAS_SYNTH['name_map'] = {'u_MC':'vx', 'v_MC':'vy'}
+MEAS_SYNTH['data_size'] = {'u_MC':'MAX', 'v_MC':'MAX'}
+MEAS_SYNTH['source'] = 'mat'
+
+APM_SYNTH = {}
+APM_SYNTH['data_path'] = apm_synth
+APM_SYNTH['sample_only_inside'] = True
+APM_SYNTH['X_map'] = {'x':'x', 'y':'y'}
+APM_SYNTH['name_map'] = {'smb_MC':'app_mb'}
+APM_SYNTH['data_size'] = {'smb_MC':'MAX'}
+APM_SYNTH['source'] = 'mat'
+
+H_SYNTH = {}
+H_SYNTH['data_path'] = H_radar_synth
+H_SYNTH['sample_only_inside'] = True
+H_SYNTH['X_map'] = {'x':'x', 'y':'y'}
+H_SYNTH['name_map'] = {'H_MC':'ice_thickness'}
+H_SYNTH['data_size'] = {'H_MC':'MAX'} 
+H_SYNTH['source'] = 'mat'
+
 
 H_loss = {}
 H_loss['name'] = "H"
@@ -165,6 +196,13 @@ hp['data'] = {
     'H':H, 
     'APM':APM
     }
+
+## validation experiments, uncomment to run
+# hp['data'] = {
+    # 'MEAS_SYNTH':MEAS_SYNTH, 
+    # 'H_SYNTH':H_SYNTH, 
+    # 'APM_SYNTH':APM_SYNTH
+    # }
 
 hp['mini_batch'] = 200_000
 
