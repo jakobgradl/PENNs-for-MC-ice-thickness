@@ -26,6 +26,7 @@ These can be used to recreate all data sets required to reproduce the figures of
 
 The inversions can be recreated by running the 'run-model.py' script.
 The model requires downloading the data sets containing the obsrvation constraints specified below, and subsequently running the 'make-bm3-thk-file.ipynb' and 'make-amb.ipynb' jupyter notebooks to create the ice thickness and apparent mass balance data sets.
+To run the validation experiments, use the 'save-data.ipynb' script to create the synthetic input data sets.
 All data sets should be placed in the 'data' folder.
 
 The main 'path' variable must be specified in the scripts by replacing '&lt;path-to-folder&gt;' with the path to the 'PENNs-for-MC-ice-thickness' folder.
@@ -33,7 +34,7 @@ The main 'path' variable must be specified in the scripts by replacing '&lt;path
 
 ## Required data sets
 
-The following publicly available data sets are used in this code:
+The following published data sets are required in this code:
 
 | Data set | File name | Link to repository |
 |----------|-----------|--------------------|
