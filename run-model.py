@@ -15,15 +15,6 @@ seedNo = 1 # choose from 1 to 5
 expNo = 1
 date = '06-10-26'
 
-## custom loss function
-def capped_MSE(y_true, y_pred): # cap loss with ReLU
-    perc = 0.05
-    
-    se = bkd.square(y_pred-y_true)
-    uncert = bkd.square(perc*y_true) # square bc we use mean-SQUARED-error
-    capped_se = bkd.relu(se-uncert)
-    return bkd.reduce_mean(capped_se)
-
 
 ## some paramters
 seeds = [42,84,168,332,664]
@@ -178,7 +169,7 @@ v_loss['weight'] = 1.0e8
 
 a_loss = {}
 a_loss['name'] = "a"
-a_loss['function'] = capped_MSE 
+a_loss['function'] = "MSE"
 a_loss['weight'] = 1.0e21 
 
 if model in ["MCexactHelm"]:
